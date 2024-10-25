@@ -1,0 +1,28 @@
+body {
+    background-color: #121212; 
+    color: #ffffff; 
+  }
+  
+  .login-form {
+    width: 300px;
+    margin-top: 4rem;
+  }
+  
+  .signup-form {
+    width: 300px;
+    margin-top: 4rem;
+  }
+  .form-control {
+    width: 100%; 
+    max-width: 300px; 
+  }
+  
+  .btn-primary {
+    background-color: #6200ea; 
+    border-color: #6200ea; 
+  }
+  
+  .btn-primary:hover {
+    background-color: #3700b3; 
+  }
+  
