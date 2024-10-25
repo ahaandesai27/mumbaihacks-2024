@@ -1,6 +1,48 @@
 from db import get_db
+from werkzeug.security import generate_password_hash, check_password_hash
+import sqlite3
 
 class Employee:
+    @staticmethod
+    def register(data):
+        try:
+            # Set CompanyID to 1 if not provided in the input data
+            company_id = data.get('CompanyID', 1)  # Default to 1 if CompanyID is not provided
+            
+            with get_db() as conn:
+                cursor = conn.cursor()
+                hashed_password = generate_password_hash(data['Password'])
+                cursor.execute('''                    
+                    INSERT INTO Employees (Name, Email, Age, Password, Role, Level, PhoneNumber, CompanyID, HomeCity, TasksCompleted, TimeWorkedPerWorkweek) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''', 
+                    (data['Name'], data['Email'], data['Age'], hashed_password, data['Role'], 1, data['PhoneNumber'], company_id, data['HomeCity'], 0, 0))  # Defaulting TasksCompleted and TimeWorkedPerWorkweek to 0
+                conn.commit()
+                return {
+                    "id": cursor.lastrowid, "message": "Registration Successful", "status": True
+                }
+        except sqlite3.Error as e:
+            return {
+                "message": f"An error occurred: {str(e)}", "status": False
+            }
+
+        
+    @staticmethod
+    def login(email, password):
+        try:
+            conn = get_db()
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM Employees WHERE Email = ?", (email,))
+            employee = cursor.fetchone()
+            if employee and check_password_hash(employee['Password'], password):
+                return {"message": "Login successful", "status": True}
+            return {
+                "message": "Invalid credentials", "status": False
+            }
+        except sqlite3.Error as e:
+            return {
+                "message": f"An error occurred: {str(e)}", "status": False
+            }
+
     @staticmethod
     def create(data):
         with get_db() as conn:
