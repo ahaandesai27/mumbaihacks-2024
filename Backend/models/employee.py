@@ -34,13 +34,19 @@ class Employee:
             cursor.execute("SELECT * FROM Employees WHERE Email = ?", (email,))
             employee = cursor.fetchone()
             if employee and check_password_hash(employee['Password'], password):
-                return {"message": "Login successful", "status": True}
+                return {
+                    "message": "Login successful",
+                    "status": True,
+                    "ID": employee['ID']
+                }
             return {
-                "message": "Invalid credentials", "status": False
+                "message": "Invalid credentials",
+                "status": False
             }
         except sqlite3.Error as e:
             return {
-                "message": f"An error occurred: {str(e)}", "status": False
+                "message": f"An error occurred: {str(e)}",
+                "status": False
             }
 
     @staticmethod
