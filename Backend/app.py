@@ -3,9 +3,32 @@ from flask_cors import CORS
 from models.employee import Employee
 from models.tasks import Task
 from models.company import Company
+from models.calendar_event import CalendarEvent
 
 app = Flask(__name__)
 CORS(app)
+
+# Calendar Routes
+@app.route('/calendar/events', methods=['GET', 'POST'])
+def calendar_events():
+    if request.method == 'GET':
+        return jsonify(CalendarEvent.get_all())
+    elif request.method == 'POST':
+        data = request.get_json()
+        return jsonify(CalendarEvent.create(data))
+
+@app.route('/calendar/events/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+def calendar_event(id):
+    if request.method == 'GET':
+        event = CalendarEvent.get(id)
+        return jsonify(event) if event else ('Event not found', 404)
+    elif request.method == 'PUT':
+        data = request.get_json()
+        updated_event = CalendarEvent.update(id, data)
+        return jsonify(updated_event) if updated_event else ('Event not found', 404)
+    elif request.method == 'DELETE':
+        deleted_event = CalendarEvent.delete(id)
+        return jsonify(deleted_event) if deleted_event else ('Event not found', 404)
 
 @app.route('/register', methods=['POST'])
 def register():
