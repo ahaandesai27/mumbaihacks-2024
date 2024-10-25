@@ -1,44 +1,66 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, request
+from models.employee import Employee
+from models.tasks import Task
+from models.company import Company
 
 app = Flask(__name__)
 
-# GET request
-@app.route('/get', methods=['GET'])
-def get_request():
-    return jsonify({"message": "This is a GET request", "params": request.args})
+# Employee Routes
+@app.route('/employees', methods=['GET', 'POST'])
+def employees():
+    if request.method == 'GET':
+        return jsonify(Employee.get_all())
+    elif request.method == 'POST':
+        data = request.get_json()
+        return jsonify(Employee.create(data))
 
-# POST request
-@app.route('/post', methods=['POST'])
-def post_request():
-    data = request.get_json()
-    return jsonify({"message": "This is a POST request", "data": data})
+@app.route('/employees/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+def employee(id):
+    if request.method == 'GET':
+        return jsonify(Employee.get(id))
+    elif request.method == 'PUT':
+        data = request.get_json()
+        return jsonify(Employee.update(id, data))
+    elif request.method == 'DELETE':
+        return jsonify(Employee.delete(id))
 
-# DELETE request
-@app.route('/delete', methods=['DELETE'])
-def delete_request():
-    return jsonify({"message": "This is a DELETE request"})
+# Task Routes
+@app.route('/tasks', methods=['GET', 'POST'])
+def tasks():
+    if request.method == 'GET':
+        return jsonify(Task.get_all())
+    elif request.method == 'POST':
+        data = request.get_json()
+        return jsonify(Task.create(data))
 
-# PATCH request
-@app.route('/patch', methods=['PATCH'])
-def patch_request():
-    data = request.get_json()
-    return jsonify({"message": "This is a PATCH request", "data": data})
+@app.route('/tasks/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+def task(id):
+    if request.method == 'GET':
+        return jsonify(Task.get(id))
+    elif request.method == 'PUT':
+        data = request.get_json()
+        return jsonify(Task.update(id, data))
+    elif request.method == 'DELETE':
+        return jsonify(Task.delete(id))
+
+# Company Routes
+@app.route('/companies', methods=['GET', 'POST'])
+def companies():
+    if request.method == 'GET':
+        return jsonify(Company.get_all())
+    elif request.method == 'POST':
+        data = request.get_json()
+        return jsonify(Company.create(data))
+
+@app.route('/companies/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+def company(id):
+    if request.method == 'GET':
+        return jsonify(Company.get(id))
+    elif request.method == 'PUT':
+        data = request.get_json()
+        return jsonify(Company.update(id, data))
+    elif request.method == 'DELETE':
+        return jsonify(Company.delete(id))
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-"""
-
-"""
-
-
-"""
-echo "# mumbaihacks-2024" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/ahaandesai27/mumbaihacks-2024.git
-git push -u origin main
-"""
