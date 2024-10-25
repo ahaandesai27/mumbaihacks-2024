@@ -5,6 +5,22 @@ from models.company import Company
 
 app = Flask(__name__)
 
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    return jsonify(Employee.register(data))
+    
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    email = data.get("Email")
+    password = data.get("Password")
+    if not email or not password:
+        return jsonify(
+            {"message": "Email and password are required", "status": False}
+        ), 400
+    return jsonify(Employee.login(email, password))
+
 # Employee Routes
 @app.route('/employees', methods=['GET', 'POST'])
 def employees():
