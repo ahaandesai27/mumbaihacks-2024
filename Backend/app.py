@@ -1,9 +1,11 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from models.employee import Employee
 from models.tasks import Task
 from models.company import Company
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -39,6 +41,10 @@ def employee(id):
         return jsonify(Employee.update(id, data))
     elif request.method == 'DELETE':
         return jsonify(Employee.delete(id))
+    
+# @app.route('/employees/<int:id>/tasks', methods=['GET', 'POST'])
+# def employee_tasks(id):
+
 
 # Task Routes
 @app.route('/tasks', methods=['GET', 'POST'])
@@ -58,6 +64,16 @@ def task(id):
         return jsonify(Task.update(id, data))
     elif request.method == 'DELETE':
         return jsonify(Task.delete(id))
+
+@app.route('/employees/<int:id>/tasks', methods=['GET', 'POST'])
+def assign_task(id):   
+    if request.method == "GET":
+        return jsonify(Task.get_by_employee(id))
+    elif request.method == "POST":
+        data = request.get_json()
+        data['assigned_to'] = id
+        return jsonify(Task.create(data))
+    
 
 # Company Routes
 @app.route('/companies', methods=['GET', 'POST'])

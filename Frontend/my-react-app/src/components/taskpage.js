@@ -1,6 +1,27 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../Context/userContext.jsx';
 
-const TaskPage = ({ tasks = [] }) => {
+const TaskPage = () => {
+  const { userId } = useContext(UserContext);
+  const [tasks, setTasks] = useState([]);
+  console.log(userId)
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/employees/${userId}/tasks`);
+        const data = await response.json();
+        console.log(data);
+        setTasks(data);
+      } catch (error) {
+        console.error('Error fetching tasks:', error);
+      }
+    };
+
+    if (userId) {
+      fetchTasks();
+    }
+  }, [userId]);
+
   return (
     <div className="container">
       <h2>Task List</h2>

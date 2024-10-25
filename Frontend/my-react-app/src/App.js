@@ -1,15 +1,23 @@
-// src/App.js
-import React, { useState } from 'react';
-import Login from './components/auth/Login.jsx';
-import Signup from './components/auth/Signup.jsx';
-import Chatbot from './components/Chatbot.jsx'
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-const App = () => {
-  const [isLogin, setIsLogin] = useState(true);
+import Login from './components/auth/Login';
+import Signup from './components/auth/Signup';
+import Homepage from './components/homepage';
+import Taskpage from './components/taskpage';
+import Navbar from './components/navbar'
 
+function App() {
   return (
-    <Chatbot />
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<> <Navbar /> <Homepage /> </>} />
+        <Route path="/tasks" element={<> <Navbar /> <Taskpage /> </>} />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;

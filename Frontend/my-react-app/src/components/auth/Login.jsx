@@ -1,30 +1,44 @@
-import React, {useRef} from 'react';
+import React, { useRef, useContext } from 'react';
 import axios from 'axios';
-import './styles.css'; // Ensure you have a CSS file for custom styles
+import { useNavigate } from 'react-router-dom';
+import './styles.css';
+import { UserContext } from '../../Context/userContext.jsx';
 
 const Login = () => {
-  const emailRef = useRef(null)
-  const passwordRef = useRef(null)
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const { setUserId } = useContext(UserContext);
+  const navigate = useNavigate(); // Initialize navigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
+    const email = emailRef?.current?.value;
+    const password = passwordRef?.current?.value;
+    console.log(email, password);
 
     try {
-      const response = await axios.post('https://your-api-url/login', {
-        email,
-        password,
+      const response = await axios.post('http://localhost:5000/login', {
+        "Email": email,
+        "Password": password
       });
 
-      // Handle successful login here (e.g., store token, redirect)
       console.log('Login successful:', response.data);
+
+      // Set the user ID in the context
+      if (response.data && response.data.ID) {
+        setUserId(response.data.ID);
+      }
+
+      // Redirect to homepage
+      navigate('/');
+
     } catch (error) {
       console.error('Error:', error);
       // Handle error (e.g., show notification)
     }
   };
+
   return (
     <div className="container mt-5 d-flex justify-content-center pt-5">
       <div className="login-form">
@@ -32,11 +46,11 @@ const Login = () => {
         <form>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">Email address</label>
-            <input type="email" className="form-control" id="email" required ref={emailRef}/>
+            <input type="email" className="form-control" id="email" required ref={emailRef} />
           </div>
           <div className="mb-3">
             <label htmlFor="password" className="form-label">Password</label>
-            <input type="password" className="form-control" id="password" required red={passwordRef}/>
+            <input type="password" className="form-control" id="password" required ref={passwordRef} />
           </div>
           <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Login</button>
         </form>

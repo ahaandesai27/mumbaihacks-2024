@@ -23,11 +23,11 @@ function BackgroundComponent() {
             home today!{" "}
           </h2>
         </div>
-        <div class="d-grid gap-4 col-4 mx-auto">
-          <button class="btn btn-warning" type="button">
+        <div className="d-grid gap-4 col-4 mx-auto">
+          <button className="btn btn-warning" type="button">
             Get Started as Employee
           </button>
-          <button class="btn btn-danger" type="button">
+          <button className="btn btn-danger" type="button">
             Register as Company
           </button>
         </div>

@@ -29,6 +29,14 @@ class Task:
         return dict(task) if task else {"message": "Task not found"}
 
     @staticmethod
+    def get_by_employee(employee_id):
+        conn = get_db()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Tasks WHERE assigned_to = ?", (employee_id,))
+        tasks = cursor.fetchall()
+        return [dict(task) for task in tasks]
+    
+    @staticmethod
     def update(id, data):
         with get_db() as conn:
             cursor = conn.cursor()
