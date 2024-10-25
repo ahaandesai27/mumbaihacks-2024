@@ -1,9 +1,8 @@
-import React, {useContext} from "react";
-import backgroundImage from "../assets/langingpagebg.jpg"; // Adjust the path as needed
-import { UserContext } from '../Context/userContext.jsx';
+import React from "react";
+import backgroundImage from "../assets/homepagebg.jpg"; // Adjust the path as needed
+import { useNavigate } from "react-router-dom";
 function Homepage() {
-  const { userId } = useContext(UserContext);
-  console.log("User ID: ",  userId)
+  const navigate = useNavigate();
   return (
     <div
       className="d-flex justify-content-center align-items-center"
@@ -15,22 +14,21 @@ function Homepage() {
         color: "white",
       }}
     >
-      <div className="d-flex flex-column mb-5 align-items-center">
-        <div>
-          <h1>Work from home for Everyone</h1>
+      <div className="d-flex flex-row align-items-center bg-dark">
+        <div className="d-flex flex-column mb-5 mt-5 align-items-center col-6">
+          <div>
+            <h1>Efficient Task Tracking</h1>
+          </div>
+          <div className="mb-3 text-center text-primary">
+            <h2>
+              Easily track your tasks with our streamlined task tracking
+              feature, ensuring accurate task management.
+            </h2>
+          </div>
         </div>
-        <div className="mb-3">
-          <h2>
-            Empower your team and company to work flexibly and efficiently from
-            home today!{" "}
-          </h2>
-        </div>
-        <div className="d-grid gap-4 col-4 mx-auto">
-          <button className="btn btn-warning" type="button">
-            Get Started as Employee
-          </button>
-          <button className="btn btn-danger" type="button">
-            Register as Company
+        <div className="d-grid gap-4 col-3 mx-auto my-auto col-4">
+          <button className="btn btn-warning" type="button" onClick={() => navigate("../tasks")}>
+            Track Tasks
           </button>
         </div>
       </div>

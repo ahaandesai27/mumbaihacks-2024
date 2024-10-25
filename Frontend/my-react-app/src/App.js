@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
-import Homepage from './components/homepage';
+import Landingpage from './components/landing_page';
 import Taskpage from './components/taskpage';
 import Navbar from './components/navbar'
+import Homepage from './components/homepage'
 
 function App() {
   return (
@@ -13,8 +14,9 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<> <Navbar /> <Homepage /> </>} />
+        <Route path="/home" element={<> <Navbar /> <Homepage /> </>} />
         <Route path="/tasks" element={<> <Navbar /> <Taskpage /> </>} />
+        <Route path="/" element={<> <Navbar /> <Landingpage /> </>} />
       </Routes>
     </Router>
   );

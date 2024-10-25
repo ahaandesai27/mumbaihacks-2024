@@ -31,7 +31,7 @@ const Login = () => {
       }
 
       // Redirect to homepage
-      navigate('/');
+      navigate('/home');
 
     } catch (error) {
       console.error('Error:', error);
