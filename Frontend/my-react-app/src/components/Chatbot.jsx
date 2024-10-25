@@ -17,7 +17,7 @@ const Chatbot = () => {
                 max_tokens: 100,
             }, {
                 headers: {
-                    'Authorization': `Bearer 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`,
+                    'Authorization': `Bearer `,
                     'Content-Type': 'application/json',
                 },
             });
